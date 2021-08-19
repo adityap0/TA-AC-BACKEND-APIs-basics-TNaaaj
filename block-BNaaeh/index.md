@@ -23,3 +23,17 @@ Above application should have 2 versions of APIs exposed.
 
 1. Endpoints for books
 2. Endpoints for books as well as comments
+
+Assignment III
+Add categories(like fiction, science, comic etc) and author to each books and add endpoints to
+create a category (done)
+edit/delete a category (done)
+list all categories (done)
+list books by category
+count books for each category
+list books by author
+Add tags to each books and handle endpoints to
+list all tags
+list tags in ascending/descending order
+filter book by tags
+get count of number of books for each tag
