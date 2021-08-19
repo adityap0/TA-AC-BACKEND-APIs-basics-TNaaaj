@@ -8,6 +8,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var booksRouter = require("./routes/books");
 var books2Router = require("./routes/books2");
+var categoryRouter = require("./routes/category");
 var mongoose = require("mongoose");
 
 var app = express();
@@ -36,6 +37,7 @@ app.use("/api", indexRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/books", booksRouter);
 app.use("/api/books2", books2Router);
+app.use("/api/category", categoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

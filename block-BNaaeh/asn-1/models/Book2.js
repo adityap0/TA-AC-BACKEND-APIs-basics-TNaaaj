@@ -7,6 +7,7 @@ var book2Schema = new Schema({
   author: { type: String, required: true },
   bio: { type: String, required: true },
   price: { type: Number, default: 400 },
+  categories: { type: [Schema.Types.ObjectId], ref: "Category" },
   comments: { type: [Schema.Types.ObjectId], ref: "Comment" },
 });
 
