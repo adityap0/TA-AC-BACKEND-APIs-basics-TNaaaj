@@ -2,17 +2,44 @@ var express = require("express");
 var router = express.Router();
 var Book2 = require("../models/Book2");
 var Comment = require("../models/Comment");
+var Category = require("../models/Category");
 
 //POST /api/books - create a book
-router.post("/new", (req, res, next) => {
-  Book2.create(req.body, (err, book) => {
-    res.send(`${book} created successfully!`);
+router.post("/", (req, res, next) => {
+  req.body.categories = req.body.categories.split(",");
+  req.body.categories = req.body.categories.map((category) => {
+    return category.trim().toUpperCase();
   });
+  var bookCategoryArr = [];
+  Category.find({}, (err, categories) => {
+    req.body.categories.forEach((bookCategory) => {
+      categories.forEach((category) => {
+        if (category.name == bookCategory) {
+          bookCategoryArr.push(`${category._id}`);
+        }
+      });
+    });
+    req.body.categories = bookCategoryArr;
+    Book2.create(req.body, (err, book) => {
+      book.categories.forEach((categoryId) => {
+        var bookId = book._id;
+        Category.findByIdAndUpdate(
+          categoryId,
+          { $push: { books: bookId } },
+          (err, category) => {}
+        );
+      });
+      res.json(book);
+    });
+  });
+  // Category.find({}, (err, categories) => {
+  //   console.log(categories);
+  // });
 });
 
 router.get("/", function (req, res, next) {
   Book2.find({})
-    .populate("comments")
+    .populate("comments categories")
     .exec((err, books) => {
       res.status(200).json(books);
     });
